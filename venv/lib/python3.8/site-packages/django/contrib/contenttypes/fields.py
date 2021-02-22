@@ -201,11 +201,10 @@ class GenericForeignKey(FieldCacheMixin):
             ct_id = getattr(obj, ct_attname)
             if ct_id is None:
                 return None
-            else:
-                model = self.get_content_type(id=ct_id,
-                                              using=obj._state.db).model_class()
-                return (model._meta.pk.get_prep_value(getattr(obj, self.fk_field)),
-                        model)
+            model = self.get_content_type(id=ct_id,
+                                          using=obj._state.db).model_class()
+            return (model._meta.pk.get_prep_value(getattr(obj, self.fk_field)),
+                    model)
 
         return (
             ret_val,
@@ -402,17 +401,16 @@ class GenericRelation(ForeignObject):
         object_id_field = opts.get_field(self.object_id_field_name)
         if object_id_field.model != opts.model:
             return self._get_path_info_with_parent(filtered_relation)
-        else:
-            target = opts.pk
-            return [PathInfo(
-                from_opts=self.model._meta,
-                to_opts=opts,
-                target_fields=(target,),
-                join_field=self.remote_field,
-                m2m=True,
-                direct=False,
-                filtered_relation=filtered_relation,
-            )]
+        target = opts.pk
+        return [PathInfo(
+            from_opts=self.model._meta,
+            to_opts=opts,
+            target_fields=(target,),
+            join_field=self.remote_field,
+            m2m=True,
+            direct=False,
+            filtered_relation=filtered_relation,
+        )]
 
     def get_reverse_path_info(self, filtered_relation=None):
         opts = self.model._meta

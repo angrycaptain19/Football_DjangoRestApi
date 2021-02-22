@@ -68,9 +68,8 @@ def inject_rename_contenttypes_operations(plan=None, apps=global_apps, using=DEF
             # unavailable from this point.
             if backward:
                 break
-            else:
-                available = True
-                continue
+            available = True
+            continue
         # The ContentType model is not available yet.
         if not available:
             continue

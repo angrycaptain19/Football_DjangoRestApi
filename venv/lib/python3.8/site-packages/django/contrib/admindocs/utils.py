@@ -46,10 +46,7 @@ def parse_docstring(docstring):
             body = "\n\n".join(parts[1:])
         else:
             metadata = dict(metadata.items())
-            if metadata:
-                body = "\n\n".join(parts[1:-1])
-            else:
-                body = "\n\n".join(parts[1:])
+            body = "\n\n".join(parts[1:-1]) if metadata else "\n\n".join(parts[1:])
     return title, body, metadata
 
 
@@ -208,21 +205,21 @@ def replace_unnamed_groups(pattern):
     group_start_end_indices = []
     prev_end = None
     for start, end in group_indices:
-        if prev_end and start > prev_end or not prev_end:
+        if start > prev_end or not prev_end:
             group_start_end_indices.append((start, end))
         prev_end = end
 
-    if group_start_end_indices:
-        # Replace unnamed groups with <var>. Handle the fact that replacing the
-        # string between indices will change string length and thus indices
-        # will point to the wrong substring if not corrected.
-        final_pattern, prev_end = [], None
-        for start, end in group_start_end_indices:
-            if prev_end:
-                final_pattern.append(pattern[prev_end:start])
-            final_pattern.append(pattern[:start] + '<var>')
-            prev_end = end
-        final_pattern.append(pattern[prev_end:])
-        return ''.join(final_pattern)
-    else:
+    if not group_start_end_indices:
         return pattern
+
+    # Replace unnamed groups with <var>. Handle the fact that replacing the
+    # string between indices will change string length and thus indices
+    # will point to the wrong substring if not corrected.
+    final_pattern, prev_end = [], None
+    for start, end in group_start_end_indices:
+        if prev_end:
+            final_pattern.append(pattern[prev_end:start])
+        final_pattern.append(pattern[:start] + '<var>')
+        prev_end = end
+    final_pattern.append(pattern[prev_end:])
+    return ''.join(final_pattern)
