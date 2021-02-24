@@ -27,9 +27,7 @@ def mapping(data_source, geom_name='geom', layer_key=0, multi_geom=False):
     if isinstance(data_source, str):
         # Instantiating the DataSource from the string.
         data_source = DataSource(data_source)
-    elif isinstance(data_source, DataSource):
-        pass
-    else:
+    elif not isinstance(data_source, DataSource):
         raise TypeError('Data source parameter must be a string or a DataSource object.')
 
     # Creating the dictionary.

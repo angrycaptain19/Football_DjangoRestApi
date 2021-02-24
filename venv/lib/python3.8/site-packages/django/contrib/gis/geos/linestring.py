@@ -24,11 +24,7 @@ class LineString(LinearGeometryMixin, GEOSGeometry):
          ls = LineString(Point(1, 1), Point(2, 2))
         """
         # If only one argument provided, set the coords array appropriately
-        if len(args) == 1:
-            coords = args[0]
-        else:
-            coords = args
-
+        coords = args[0] if len(args) == 1 else args
         if not (isinstance(coords, (tuple, list)) or numpy and isinstance(coords, numpy.ndarray)):
             raise TypeError('Invalid initialization input for LineStrings.')
 

@@ -48,11 +48,11 @@ def main():
     new_name = "players_new.json"
     updateFiles(dir_name, new_name, old_name, "")
 
+    dir_name = "fetchedData/detail/"
     # get one player
-    while (1):
+    while 1:
         player_id = input()
 
-        dir_name = "fetchedData/detail/"
         old_name = "player" + player_id + "_old.json"
         new_name = "player" + player_id + "_new.json"
         updateFiles(dir_name, new_name, old_name, player_id + "/")

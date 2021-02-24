@@ -27,10 +27,7 @@ class Point(GEOSGeometry):
             coords = x
         elif isinstance(x, (float, int)) and isinstance(y, (float, int)):
             # Here X, Y, and (optionally) Z were passed in individually, as parameters.
-            if isinstance(z, (float, int)):
-                coords = [x, y, z]
-            else:
-                coords = [x, y]
+            coords = [x, y, z] if isinstance(z, (float, int)) else [x, y]
         else:
             raise TypeError('Invalid parameters given for Point initialization.')
 

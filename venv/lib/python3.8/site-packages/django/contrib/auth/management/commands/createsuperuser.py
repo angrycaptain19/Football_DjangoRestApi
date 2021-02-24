@@ -172,10 +172,9 @@ class Command(BaseCommand):
                     username = os.environ.get('DJANGO_SUPERUSER_' + self.UserModel.USERNAME_FIELD.upper())
                 if username is None:
                     raise CommandError('You must use --%s with --noinput.' % self.UserModel.USERNAME_FIELD)
-                else:
-                    error_msg = self._validate_username(username, verbose_field_name, database)
-                    if error_msg:
-                        raise CommandError(error_msg)
+                error_msg = self._validate_username(username, verbose_field_name, database)
+                if error_msg:
+                    raise CommandError(error_msg)
 
                 user_data[self.UserModel.USERNAME_FIELD] = username
                 for field_name in self.UserModel.REQUIRED_FIELDS:
